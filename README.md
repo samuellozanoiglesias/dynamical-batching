@@ -6,9 +6,9 @@ spiral experiment for one seed:
 1. generates the spiral dataset (train and test sets);
 2. builds an MLP in JAX;
 3. trains it twice from the same initialisation and seed:
-   **Uniform Batching (UB, $A = 1$)** and **Dynamical Batching (DB, $A = 20$, $T = 320$)**;
+   **Uniform Batching (UB, A=1)** and **Dynamical Batching (DB, A=20, T=320)**;
 4. computes, once per cycle, the three weight-level switching measures: switching-set size $|\mathcal S|/n$,
-   switching-set persistence $J(\mathcal S_c,\mathcal S_{c-1})$ and the pair-averaged switching distance $d_{ij}$;
+   switching-set persistence $J(\mathcal S_c,\mathcal S_{c-1})$ and the pair-averaged switching distance d;
 5. saves one CSV per run and draws all figures.
 
 ## How to run
@@ -30,12 +30,12 @@ protocols share one compilation.
 ## Protocol
 
 Classes take turns being the *focus class*. Each **oscillation** lasts $T$ steps and belongs to one class; during it the
-focus-class weight ramps linearly $1 \to A \to 1$ (peak at $T/2$) while the other classes keep weight $1$. Batch
-proportions are $p_c \propto w_c$ and per-class counts are $\lfloor p_c B \rfloor$. A **cycle** is $C$ consecutive
-oscillations, one per class ($C\,T$ steps). Oscillations run for the whole training; $A = 1$ gives uniform batching.
+focus-class weight ramps linearly $1 \to A \to 1$ (peak at T/2) while the other classes keep weight 1. Batch
+proportions are $p_c \propto w_c$ and per-class counts are $\lfloor p_c B \rfloor$. A **cycle** is C consecutive
+oscillations, one per class (C, T steps). Oscillations run for the whole training; A=1 gives uniform batching.
 
-Class states $\theta_i(c)$ are the mean parameters over the central window $[T/4, 3T/4)$ of class $i$'s oscillation in
-cycle $c$. The switching set is the smallest set of weights carrying 80 % of the across-class variance of the
+Class states $\theta_i(c)$ are the mean parameters over the central window [T/4, 3T/4) of class i's oscillation in
+cycle c. The switching set is the smallest set of weights carrying 80% of the across-class variance of the
 drift-corrected class states (drift taken from the previous cycle mean).
 
 ## Configuration
